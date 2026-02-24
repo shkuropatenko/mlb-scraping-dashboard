@@ -1,6 +1,12 @@
-import streamlit as st
+import pandas as pd
 
-st.set_page_config(page_title="MLB World Series Dashboard", layout="wide")
+DATA_URL = "https://www.espn.com/mlb/worldseries/history/winners"
 
-st.title("MLB World Series Dashboard")
-st.markdown("This app will scrape and visualize MLB World Series winners data.")
+def load_raw_table() -> pd.DataFrame:
+    tables = pd.read_html(DATA_URL, header=None)
+    return tables[0].copy()
+
+df_raw = load_raw_table()
+
+st.subheader("Raw scraped table (preview)")
+st.dataframe(df_raw.head(20), use_container_width=True)
